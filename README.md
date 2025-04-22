@@ -25,7 +25,7 @@ To start a test quickly: skip the trace collection steps (Section 1); go directl
 - torchaudio: 2.1.0+cu121
 
 #### Dataset
-The codes use the ILSVRC2012_img_val dataset. For a quick start, a subset of 256 images is included under ./tracer/data.
+The codes use the ILSVRC2012_img_val dataset. For a quick start, a subset of 256 images is included under ./tracer.
 #### Usage
 To collect traces from PyTorch models, we use PyTorch Profiler to gather layer or operator time information, and the Execution Graph Observer tool to collect detailed input, output, and other tensor or data information. 
 The batch size is set via command-line arguments. You can also customize the number of iterations (num_iters) and the model to trace (listmodel) directly in the code.
