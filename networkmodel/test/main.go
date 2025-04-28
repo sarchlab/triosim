@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/syifan/triosim/networkmodel"
+	"github.com/sarchlab/triosim/networkmodel"
 	"github.com/tebeka/atexit"
 	"gitlab.com/akita/akita/v3/monitoring"
 	"gitlab.com/akita/akita/v3/sim"

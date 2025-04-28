@@ -8,10 +8,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/syifan/triosim"
-	"github.com/syifan/triosim/networkmodel"
-	"github.com/syifan/triosim/timemodel"
-	"github.com/syifan/triosim/traceplayer"
+	"github.com/sarchlab/triosim"
+	"github.com/sarchlab/triosim/networkmodel"
+	"github.com/sarchlab/triosim/timemodel"
+	"github.com/sarchlab/triosim/traceplayer"
 	"gitlab.com/akita/akita/v3/sim"
 )
 

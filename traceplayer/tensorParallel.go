@@ -7,8 +7,8 @@ import (
 	"reflect"
 	"strconv"
 
-	"github.com/syifan/triosim"
-	"github.com/syifan/triosim/timemodel"
+	"github.com/sarchlab/triosim"
+	"github.com/sarchlab/triosim/timemodel"
 	"gitlab.com/akita/akita/v3/sim"
 )
 

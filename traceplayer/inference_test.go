@@ -4,8 +4,8 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	"github.com/syifan/triosim"
-	"github.com/syifan/triosim/timemodel"
+	"github.com/sarchlab/triosim"
+	"github.com/sarchlab/triosim/timemodel"
 	"gitlab.com/akita/akita/v3/sim"
 )
 

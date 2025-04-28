@@ -7,7 +7,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	timemodel "github.com/syifan/triosim/timemodel"
+	timemodel "github.com/sarchlab/triosim/timemodel"
 )
 
 // MockTimeEstimator is a mock of TimeEstimator interface.
