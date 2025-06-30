@@ -458,7 +458,9 @@ func (p *InferenceTracePlayer) completeLayer(e sim.Event) {
 
 func (p *InferenceTracePlayer) doFetching(gpuID int) {
 	if len(p.memoryRegions[gpuID].inflightTransfer) > 0 {
-		return
+		if !p.msgPurpose(gpuID) {
+			return
+		}
 	}
 
 	if p.memoryRegions[gpuID].fetchingLayerIndex >= len(p.trace) {
@@ -506,6 +508,19 @@ func (p *InferenceTracePlayer) doFetching(gpuID int) {
 	if !err {
 		return
 	}
+}
+
+func (p *InferenceTracePlayer) msgPurpose(gpuID int) bool {
+	scatterMsg := false
+	for _, msg := range p.memoryRegions[gpuID].inflightTransfer {
+		fmt.Println("msg", msg.Purpose, msg.MsgMeta.ID, msg.MsgMeta.Src.Name(), msg.MsgMeta.Dst.Name())
+		if msg.Purpose == "scatter" || msg.Purpose == "gather" {
+			scatterMsg = true
+		} else {
+			scatterMsg = false
+		}
+	}
+	return scatterMsg
 }
 
 func (p *InferenceTracePlayer) nextTensorPkgToMove(
