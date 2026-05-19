@@ -13,7 +13,9 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
-          go-version: "stable"
+          # go-version: "stable" # latest version
+          # Match go.mod; "stable" (e.g. 1.26) breaks ginkgo v2.10 typecheck in golangci-lint.
+          go-version: "1.20"
 
       - name: Build
         run: go build ./...
@@ -25,7 +27,8 @@ jobs:
           args: --timeout=10m
 
       - name: Install Ginkgo
-        run: go install github.com/onsi/ginkgo/v2/ginkgo
+        # run: go install github.com/onsi/ginkgo/v2/ginkgo
+        run: go install github.com/onsi/ginkgo/v2/ginkgo@v2.10.0
 
       - name: Unit Test
         run: ginkgo -r
