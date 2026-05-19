@@ -248,8 +248,12 @@ func buildHardwarePlatform(
 	if *interconnects == 1 {
 		setupOpticalNetwork(engine, remotePort, gpuPortID, numGPUID)
 	} else {
-		busbandwidth := *ptpbandwidth * 2 * (float64(numGPUID) - 1) / float64(numGPUID)
-		setupPacketSwitchingNetwork(engine, remotePort, gpuPortID, numGPUID, busbandwidth)
+		// Ring all-reduce in traceplayer sends M/N bytes per step for 2(N-1) steps;
+		// check use physical P2P bandwidth here or use busbandwidth.
+		// busbandwidth := *ptpbandwidth * 2 * (float64(numGPUID) - 1) / float64(numGPUID)
+		// setupPacketSwitchingNetwork(engine, remotePort, gpuPortID, numGPUID, busbandwidth)
+		setupPacketSwitchingNetwork(engine, remotePort, gpuPortID, numGPUID, *ptpbandwidth)
+
 	}
 
 	return remoteMemRegion, remotePort
@@ -290,8 +294,9 @@ func buildDataHardwarePlatform(
 	if *interconnects == 1 {
 		setupOpticalNetwork(engine, remotePort, gpuPortID, numGPUID)
 	} else {
-		busbandwidth := *ptpbandwidth * 2 * (float64(numGPUID) - 1) / float64(numGPUID)
-		setupPacketSwitchingNetwork(engine, remotePort, gpuPortID, numGPUID, busbandwidth)
+		// busbandwidth := *ptpbandwidth * 2 * (float64(numGPUID) - 1) / float64(numGPUID)
+		// setupPacketSwitchingNetwork(engine, remotePort, gpuPortID, numGPUID, busbandwidth)
+		setupPacketSwitchingNetwork(engine, remotePort, gpuPortID, numGPUID, *ptpbandwidth)
 	}
 	return remoteMemRegion, remotePort
 }
@@ -372,8 +377,9 @@ func buildTensorHardwarePlatform(
 	if *interconnects == 1 {
 		setupOpticalNetwork(engine, remotePort, gpuPortID, numGPUID)
 	} else {
-		busbandwidth := *ptpbandwidth * 2 * (float64(numGPUID) - 1) / float64(numGPUID)
-		setupPacketSwitchingNetwork(engine, remotePort, gpuPortID, numGPUID, busbandwidth)
+		// busbandwidth := *ptpbandwidth * 2 * (float64(numGPUID) - 1) / float64(numGPUID)
+		// setupPacketSwitchingNetwork(engine, remotePort, gpuPortID, numGPUID, busbandwidth)
+		setupPacketSwitchingNetwork(engine, remotePort, gpuPortID, numGPUID, *ptpbandwidth)
 	}
 	return remoteMemRegion, remotePort
 }
@@ -437,7 +443,8 @@ func setupPacketSwitchingNetwork(
 	remotePort *sim.LimitNumMsgPort,
 	gpuPortID []*sim.LimitNumMsgPort,
 	numGPUID int,
-	busbandwidth float64,
+	// busbandwidth float64,
+	ptpBandwidth float64,
 ) {
 	networkModel := networkmodel.NewPacketSwitchingNetworkModel(engine, engine)
 	networkModel.PlugInWithDetails(remotePort, 1, "")
@@ -447,7 +454,8 @@ func setupPacketSwitchingNetwork(
 	}
 	// ring-based all reduce
 	for i := 0; i < numGPUID; i++ {
-		networkModel.AddLink(gpuPortID[i], gpuPortID[(i+1)%numGPUID], busbandwidth*1e9, 1e-7)
+		// networkModel.AddLink(gpuPortID[i], gpuPortID[(i+1)%numGPUID], busbandwidth*1e9, 1e-7)
+		networkModel.AddLink(gpuPortID[i], gpuPortID[(i+1)%numGPUID], ptpBandwidth*1e9, 1e-7)
 	}
 }
 
