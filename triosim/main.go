@@ -253,7 +253,6 @@ func buildHardwarePlatform(
 		// busbandwidth := *ptpbandwidth * 2 * (float64(numGPUID) - 1) / float64(numGPUID)
 		// setupPacketSwitchingNetwork(engine, remotePort, gpuPortID, numGPUID, busbandwidth)
 		setupPacketSwitchingNetwork(engine, remotePort, gpuPortID, numGPUID, *ptpbandwidth)
-
 	}
 
 	return remoteMemRegion, remotePort
